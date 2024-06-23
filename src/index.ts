@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { match } from 'assert';
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -13,6 +14,7 @@ type Author {
 }
   # This "Book" type defines the queryable fields for every book in our data source.
   type Book {
+    id: ID
     title: String
     author: Author
     location: String!
@@ -39,6 +41,7 @@ type Author {
 `;
 const books = [
     {
+      id: 2763,
       title: 'The Awakening',
       author: {
         firstName: 'Kate',
@@ -46,6 +49,7 @@ const books = [
       },
     },
     {
+      id: 3765,
       title: 'City of Glass',
       author: {
         firstName: 'Paul',
@@ -75,8 +79,10 @@ firstName: (a) => {
     Mutation: {
       addBook: (_,{input} ) => {
         console.log("Inside mutation input is", input)
-        books.push(input)
-        return input
+        const id = Math.floor(Math.random() * 1000)
+        const newBook = { ...input, id}
+        books.push(newBook)
+        return newBook
       }
     }
   };
