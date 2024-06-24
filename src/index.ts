@@ -33,7 +33,6 @@ type Author {
   input NewBookInput {
     title: String!
     author: AuthorInput!
-    location: String
   }
   type Mutation {
     addBook(input: NewBookInput!): Book!
@@ -64,12 +63,6 @@ const resolvers = {
         return books
       },
       
-    },
-    Book: {
-      location: (a,b,c) => {
-        console.log("we are in book resolvers:","a is",a,"b is",b,"c is",c)
-        return "IR"
-      }
     },
     Author: {
 firstName: (a) => {
